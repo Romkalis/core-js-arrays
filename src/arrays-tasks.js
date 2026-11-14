@@ -251,7 +251,7 @@ function doubleArray(arr) {
  *    toStringList(['rock', 'paper', 'scissors']) => 'rock,paper,scissors'
  */
 function toStringList(arr) {
-  return arr.toString();
+  return arr.join(',');
 }
 
 /**
@@ -285,12 +285,12 @@ function distinct(arr) {
  */
 function createNDimensionalArray(n, size) {
   if (n === 1) {
-    return Array.from({ length: size }, () => 0);
+    return Array(size).fill(0);
   }
 
-  return Array.from({ length: size }, () =>
-    createNDimensionalArray(n - 1, size)
-  );
+  return Array(size)
+    .fill()
+    .map(() => createNDimensionalArray(n - 1, size));
 }
 
 /**
@@ -305,11 +305,7 @@ function createNDimensionalArray(n, size) {
  *    flattenArray([1, 2, 3, 4]) => [1, 2, 3, 4]
  */
 function flattenArray(nestedArray) {
-  return nestedArray.reduce(
-    (result, value) =>
-      result.concat(Array.isArray(value) ? flattenArray(value) : [value]),
-    []
-  );
+  return nestedArray.flat(Infinity);
 }
 
 /**
@@ -326,10 +322,7 @@ function flattenArray(nestedArray) {
  *   selectMany(['one','two','three'], (x) => x.split('')) =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-  return arr.reduce(
-    (result, item) => result.concat(childrenSelector(item)),
-    []
-  );
+  return arr.flatMap((item) => childrenSelector(item));
 }
 
 /**
